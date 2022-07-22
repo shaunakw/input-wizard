@@ -14,24 +14,21 @@ import { register } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
 
 export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
-  const start = () => {
-    invoke("start_click", { millis, button });
-    setOn(true);
-    props.onChange(true);
-  };
-
-  const stop = () => {
-    invoke("stop_click");
-    setOn(false);
-    props.onChange(false);
-  };
-
   const [on, setOn] = useState(false);
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
 
   useEffect(() => {
-    register("Ctrl+L", on ? stop : start);
+    if (on) {
+      invoke("start_click", { millis, button });
+    } else {
+      invoke("stop_click");
+    }
+    props.onChange(on);
+  }, [on]);
+
+  useEffect(() => {
+    register("Ctrl+L", () => setOn(!on));
   }, []);
 
   return (
@@ -70,10 +67,25 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
         </Select>
       </div>
 
-      <Button size={"lg"} colorScheme="blue" isDisabled={on} onClick={start}>
+      <Button
+        size={"lg"}
+        colorScheme="blue"
+        isDisabled={on}
+        onClick={() => {
+          if (!isNaN(millis)) {
+            setOn(true);
+          }
+        }}
+      >
         Start
       </Button>
-      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={stop}>
+
+      <Button
+        size={"lg"}
+        colorScheme="blue"
+        isDisabled={!on}
+        onClick={() => setOn(false)}
+      >
         Stop
       </Button>
     </SimpleGrid>
