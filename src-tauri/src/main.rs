@@ -37,9 +37,6 @@ async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> R
     while *state.click.lock().await {
       interval.tick().await;
       enigo.mouse_click(button);
-
-      #[cfg(debug_assertions)]
-      println!("{:?} click", button)
     }
   }
 
