@@ -21,14 +21,23 @@ impl AppState {
 }
 
 #[tauri::command]
-async fn start_click(state: State<'_, AppState>, millis: u64) -> Result<(), ()> {
-  *state.click.lock().await = true;
+async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> Result<(), ()> {
+  if !*state.click.lock().await {
+    *state.click.lock().await = true;
 
-  let mut enigo = Enigo::new();
-  let mut interval = time::interval(Duration::from_millis(millis));
-  while *state.click.lock().await {
-    interval.tick().await;
-    enigo.mouse_click(MouseButton::Left);
+    let mut enigo = Enigo::new();
+    let mut interval = time::interval(Duration::from_millis(millis));
+    while *state.click.lock().await {
+      interval.tick().await;
+
+      let button = match button {
+        "Left" => MouseButton::Left,
+        "Right" => MouseButton::Right,
+        "Middle" => MouseButton::Middle,
+        _ => MouseButton::Left
+      };
+      enigo.mouse_click(button);
+    }
   }
 
   Ok(())

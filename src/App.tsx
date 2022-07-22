@@ -2,7 +2,7 @@ import { invoke } from "@tauri-apps/api";
 
 export default function App() {
   const start = () => {
-    invoke("start_click", { millis: 100 });
+    invoke("start_click", { millis: 100, button: "Left" });
   };
 
   const stop = () => {
