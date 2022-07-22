@@ -10,14 +10,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api";
-import { register } from "@tauri-apps/api/globalShortcut";
+import { isRegistered, register } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
 
 export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   const [on, setOn] = useState(false);
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
-  const [i, setI] = useState(0);
 
   useEffect(() => {
     if (on) {
@@ -35,6 +34,15 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   useEffect(() => {
     register("`", () => setI(i + 1));
   }, []);
+
+  const [i, setI] = useState(0);
+  const [j, setJ] = useState(false);
+  const [k, setK] = useState(false);
+
+  const reload = () => {
+    isRegistered("`").then(setJ);
+    isRegistered("Ctrl+L").then(setK);
+  };
 
   return (
     <SimpleGrid columns={2} gap={4}>
@@ -93,7 +101,12 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
       >
         Stop
       </Button>
-      {i}
+      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={reload}>
+        Reload
+      </Button>
+      <p>i: {i}</p>
+      <p>` enabled: {j}</p>
+      <p>Ctrl+L enabled: {k}</p>
     </SimpleGrid>
   );
 };
