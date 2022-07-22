@@ -56,10 +56,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 400,
+        "height": 300,
         "resizable": false,
         "title": "Input Wizard",
-        "width": 600
+        "width": 500
       }
     ]
   }
