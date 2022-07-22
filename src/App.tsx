@@ -1,18 +1,27 @@
-import { invoke } from "@tauri-apps/api";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
+import { useState } from "react";
+import { KeyboardTab } from "./components/KeyboardTab";
+import { MouseTab } from "./components/MouseTab";
 
 export default function App() {
-  const start = () => {
-    invoke("start_click", { millis: 100, button: "Left" });
-  };
-
-  const stop = () => {
-    invoke("stop_click");
-  };
+  const [mouseOn, setMouseOn] = useState(false);
+  const [keyboardOn, setKeyboardOn] = useState(false);
 
   return (
-    <div>
-      <h1 onClick={start}>Start</h1>
-      <h1 onClick={stop}>Stop</h1>
-    </div>
+    <Tabs>
+      <TabList>
+        <Tab isDisabled={keyboardOn}>Mouse</Tab>
+        <Tab isDisabled={mouseOn}>Keyboard</Tab>
+      </TabList>
+
+      <TabPanels>
+        <TabPanel>
+          <MouseTab onChange={setMouseOn} />
+        </TabPanel>
+        <TabPanel>
+          <KeyboardTab onChange={setKeyboardOn} />
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 }
