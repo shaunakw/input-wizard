@@ -10,7 +10,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api";
-import { useState } from "react";
+import { register } from "@tauri-apps/api/globalShortcut";
+import { useEffect, useState } from "react";
 
 export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   const start = () => {
@@ -28,6 +29,10 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   const [on, setOn] = useState(false);
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
+
+  useEffect(() => {
+    register("Ctrl+L", on ? stop : start);
+  }, []);
 
   return (
     <SimpleGrid columns={2} gap={4}>

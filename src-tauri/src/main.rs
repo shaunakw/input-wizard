@@ -6,7 +6,7 @@
 use std::time::Duration;
 
 use enigo::{Enigo, MouseControllable, MouseButton};
-use tauri::{State, Window};
+use tauri::State;
 use tauri::async_runtime::Mutex;
 use tokio::time;
 
