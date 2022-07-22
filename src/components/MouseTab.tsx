@@ -65,13 +65,11 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
         </Select>
       </div>
 
-      <Button
-        size={"lg"}
-        gridColumn="1 / span 2"
-        colorScheme="blue"
-        onClick={on ? stop : start}
-      >
-        {on ? "Stop" : "Start"}
+      <Button size={"lg"} colorScheme="blue" isDisabled={on} onClick={start}>
+        Start
+      </Button>
+      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={stop}>
+        Stop
       </Button>
     </SimpleGrid>
   );
