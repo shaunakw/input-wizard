@@ -1,7 +1,13 @@
-export default function App() {
-  const start = () => {};
+import { invoke } from "@tauri-apps/api";
 
-  const stop = () => {};
+export default function App() {
+  const start = () => {
+    invoke("start_click", { millis: 100 });
+  };
+
+  const stop = () => {
+    invoke("stop_click");
+  };
 
   return (
     <div>
