@@ -17,6 +17,7 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   const [on, setOn] = useState(false);
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
+  const [i, setI] = useState(0);
 
   useEffect(() => {
     if (on) {
@@ -29,6 +30,10 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
 
   useEffect(() => {
     register("Ctrl+L", () => setOn(!on));
+  }, []);
+
+  useEffect(() => {
+    register("`", () => setI(i + 1));
   }, []);
 
   return (
@@ -88,6 +93,7 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
       >
         Stop
       </Button>
+      {i}
     </SimpleGrid>
   );
 };
