@@ -1,27 +1,108 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useState } from "react";
-import { KeyboardTab } from "./components/KeyboardTab";
-import { MouseTab } from "./components/MouseTab";
+import {
+  Box,
+  Button,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Select,
+  SimpleGrid,
+  Text,
+} from "@chakra-ui/react";
+import { invoke } from "@tauri-apps/api";
+import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
+import { useEffect, useState } from "react";
 
 export default function App() {
-  const [mouseOn, setMouseOn] = useState(false);
-  const [keyboardOn, setKeyboardOn] = useState(false);
+  const [on, setOn] = useState(false);
+  const [type, setType] = useState("click");
+
+  const [millis, setMillis] = useState(100);
+  const [button, setButton] = useState("Left");
+
+  const [shortcut, setShortcut] = useState("`");
+
+  const start = () => {
+    if (type === "click" && !isNaN(millis)) {
+      invoke("start_click", { millis, button });
+      setOn(true);
+    }
+  };
+
+  const stop = () => {
+    invoke("stop");
+    setOn(false);
+  };
+
+  const toggleOn = () => {
+    on ? stop() : start();
+  };
+
+  useEffect(() => {
+    unregisterAll().then(() => {
+      register(shortcut, toggleOn);
+    });
+  }, [shortcut]);
 
   return (
-    <Tabs>
-      <TabList>
-        <Tab isDisabled={keyboardOn}>Mouse</Tab>
-        <Tab isDisabled={mouseOn}>Keyboard</Tab>
-      </TabList>
+    <SimpleGrid columns={2} p={4} gap={4}>
+      <Box gridColumn={"1 / span 2"}>
+        <Text fontSize={"sm"} mb={2} ml={1}>
+          Action
+        </Text>
+        <Select
+          defaultValue={type}
+          isDisabled={on}
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option value={"click"}>Mouse click</option>
+          <option value={"key_press"}>Key press</option>
+          <option value={"key_hold"}>Key hold</option>
+        </Select>
+      </Box>
 
-      <TabPanels>
-        <TabPanel>
-          <MouseTab onChange={setMouseOn} />
-        </TabPanel>
-        <TabPanel>
-          <KeyboardTab onChange={setKeyboardOn} />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+      <Box>
+        <Text fontSize={"sm"} mb={2} ml={1}>
+          Mouse button
+        </Text>
+        <Select
+          defaultValue={button}
+          isDisabled={on}
+          onChange={(e) => setButton(e.target.value)}
+        >
+          <option value={"Left"}>Left</option>
+          <option value={"Right"}>Right</option>
+          <option value={"Middle"}>Middle</option>
+        </Select>
+      </Box>
+
+      <Box>
+        <Text fontSize={"sm"} mb={2} ml={1}>
+          Interval (milliseconds)
+        </Text>
+        <NumberInput
+          defaultValue={millis}
+          min={1}
+          isInvalid={isNaN(millis)}
+          isDisabled={on}
+          onChange={(_, n) => setMillis(n)}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
+      </Box>
+
+      <Button size={"lg"} colorScheme="blue" isDisabled={on} onClick={start}>
+        Start ({shortcut})
+      </Button>
+
+      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={stop}>
+        Stop ({shortcut})
+      </Button>
+    </SimpleGrid>
   );
 }

@@ -44,7 +44,7 @@ async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> R
 }
 
 #[tauri::command]
-async fn stop_click(state: State<'_, AppState>) -> Result<(), ()> {
+async fn stop(state: State<'_, AppState>) -> Result<(), ()> {
   *state.click.lock().await = false;
 
   Ok(())
@@ -53,7 +53,7 @@ async fn stop_click(state: State<'_, AppState>) -> Result<(), ()> {
 fn main() {
   tauri::Builder::default()
     .manage(AppState::new())
-    .invoke_handler(tauri::generate_handler![start_click, stop_click])
+    .invoke_handler(tauri::generate_handler![start_click, stop])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
