@@ -5,7 +5,7 @@
 
 use std::time::Duration;
 
-use enigo::{Enigo, MouseControllable, MouseButton};
+use rdev::{Button, EventType};
 use tauri::State;
 use tauri::async_runtime::Mutex;
 use tokio::time;
@@ -26,17 +26,17 @@ async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> R
     *state.click.lock().await = true;
 
     let button = match button {
-      "Left" => MouseButton::Left,
-      "Right" => MouseButton::Right,
-      "Middle" => MouseButton::Middle,
-      _ => MouseButton::Left
+      "Left" => Button::Left,
+      "Right" => Button::Right,
+      "Middle" => Button::Middle,
+      _ => Button::Left
     };
 
-    let mut enigo = Enigo::new();
     let mut interval = time::interval(Duration::from_millis(millis));
     while *state.click.lock().await {
       interval.tick().await;
-      enigo.mouse_click(button);
+      rdev::simulate(&EventType::ButtonPress(button)).unwrap();
+      rdev::simulate(&EventType::ButtonRelease(button)).unwrap();
     }
   }
 
