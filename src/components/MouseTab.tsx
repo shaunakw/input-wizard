@@ -28,11 +28,11 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   }, [on]);
 
   useEffect(() => {
-    register("Ctrl+L", () => setOn(!on));
+    register("Ctrl+L", () => setI(i + 1));
   }, []);
 
   useEffect(() => {
-    register("`", () => setI(i + 1));
+    register("`", () => setOn(!on));
   }, []);
 
   const [i, setI] = useState(0);
