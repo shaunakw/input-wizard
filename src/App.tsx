@@ -13,9 +13,11 @@ import {
 import { invoke } from "@tauri-apps/api";
 import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
+import { SetShortcutButton } from "./components/SetShortcutButton";
 
 export default function App() {
   const [on, setOn] = useState(false);
+
   const [type, setType] = useState("click");
 
   const [millis, setMillis] = useState(100);
@@ -23,25 +25,19 @@ export default function App() {
 
   const [shortcut, setShortcut] = useState("`");
 
-  const start = () => {
-    if (type === "click" && !isNaN(millis)) {
-      invoke("start_click", { millis, button });
-      setOn(true);
+  useEffect(() => {
+    if (on) {
+      if (type === "click") {
+        invoke("start_click", { millis, button });
+      }
+    } else {
+      invoke("stop");
     }
-  };
-
-  const stop = () => {
-    invoke("stop");
-    setOn(false);
-  };
-
-  const toggleOn = () => {
-    on ? stop() : start();
-  };
+  }, [on]);
 
   useEffect(() => {
     unregisterAll().then(() => {
-      register(shortcut, toggleOn);
+      register(shortcut, () => setOn((on) => !on));
     });
   }, [shortcut]);
 
@@ -86,7 +82,7 @@ export default function App() {
           min={1}
           isInvalid={isNaN(millis)}
           isDisabled={on}
-          onChange={(_, n) => setMillis(n)}
+          onChange={(_, n) => setMillis(isNaN(n) ? 1 : n)}
         >
           <NumberInputField />
           <NumberInputStepper>
@@ -96,11 +92,23 @@ export default function App() {
         </NumberInput>
       </Box>
 
-      <Button size={"lg"} colorScheme="blue" isDisabled={on} onClick={start}>
+      <SetShortcutButton isDisabled={on} onChange={setShortcut} />
+
+      <Button
+        size={"lg"}
+        colorScheme="blue"
+        isDisabled={on}
+        onClick={() => setOn(true)}
+      >
         Start ({shortcut})
       </Button>
 
-      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={stop}>
+      <Button
+        size={"lg"}
+        colorScheme="blue"
+        isDisabled={!on}
+        onClick={() => setOn(false)}
+      >
         Stop ({shortcut})
       </Button>
     </SimpleGrid>

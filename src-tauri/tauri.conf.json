@@ -58,7 +58,7 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 300,
+        "height": 350,
         "resizable": false,
         "title": "Input Wizard",
         "width": 500
