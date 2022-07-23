@@ -101,12 +101,12 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
       >
         Stop
       </Button>
-      <Button size={"lg"} colorScheme="blue" isDisabled={!on} onClick={reload}>
+      <Button size={"lg"} colorScheme="blue" onClick={reload}>
         Reload
       </Button>
       <p>i: {i}</p>
-      <p>` enabled: {j}</p>
-      <p>Ctrl+L enabled: {k}</p>
+      <p>` registered: {j ? "yes" : "no"}</p>
+      <p>Ctrl+L registered: {k ? "yes" : "no"}</p>
     </SimpleGrid>
   );
 };
