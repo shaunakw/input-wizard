@@ -28,21 +28,8 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
   }, [on]);
 
   useEffect(() => {
-    register("Ctrl+L", () => setI(i + 1));
+    register("`", () => setOn((on) => !on));
   }, []);
-
-  useEffect(() => {
-    register("`", () => setOn(!on));
-  }, []);
-
-  const [i, setI] = useState(0);
-  const [j, setJ] = useState(false);
-  const [k, setK] = useState(false);
-
-  const reload = () => {
-    isRegistered("`").then(setJ);
-    isRegistered("Ctrl+L").then(setK);
-  };
 
   return (
     <SimpleGrid columns={2} gap={4}>
@@ -101,12 +88,6 @@ export const MouseTab = (props: { onChange: (on: boolean) => void }) => {
       >
         Stop
       </Button>
-      <Button size={"lg"} colorScheme="blue" onClick={reload}>
-        Reload
-      </Button>
-      <p>i: {i}</p>
-      <p>` registered: {j ? "yes" : "no"}</p>
-      <p>Ctrl+L registered: {k ? "yes" : "no"}</p>
     </SimpleGrid>
   );
 };
