@@ -35,12 +35,6 @@ export default function App() {
     }
   }, [on]);
 
-  useEffect(() => {
-    unregisterAll().then(() => {
-      register(shortcut, () => setOn((on) => !on));
-    });
-  }, [shortcut]);
-
   return (
     <SimpleGrid columns={2} p={4} gap={4}>
       <Box gridColumn={"1 / span 2"}>
@@ -92,7 +86,11 @@ export default function App() {
         </NumberInput>
       </Box>
 
-      <SetShortcutButton isDisabled={on} onChange={setShortcut} />
+      <SetShortcutButton
+        isDisabled={on}
+        onSelect={setShortcut}
+        onShortcut={() => setOn((on) => !on)}
+      />
 
       <Button
         size={"lg"}

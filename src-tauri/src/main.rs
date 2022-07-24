@@ -6,24 +6,25 @@
 use std::time::Duration;
 
 use rdev::{Button, EventType};
-use tauri::State;
+use tauri::{State, Manager};
 use tauri::async_runtime::Mutex;
 use tokio::time;
 
 struct AppState {
-  click: Mutex<bool>
+  on: Mutex<bool>
 }
 
 impl AppState {
   fn new() -> Self {
-    AppState { click: Mutex::new(false) }
+    AppState { on: Mutex::new(false) }
   }
 }
 
 #[tauri::command]
 async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> Result<(), ()> {
-  if !*state.click.lock().await {
-    *state.click.lock().await = true;
+  let on = &state.on;
+  if !*on.lock().await {
+    *on.lock().await = true;
 
     let button = match button {
       "Left" => Button::Left,
@@ -33,7 +34,7 @@ async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> R
     };
 
     let mut interval = time::interval(Duration::from_millis(millis));
-    while *state.click.lock().await {
+    while *on.lock().await {
       interval.tick().await;
       rdev::simulate(&EventType::ButtonPress(button)).unwrap();
       rdev::simulate(&EventType::ButtonRelease(button)).unwrap();
@@ -45,13 +46,26 @@ async fn start_click(state: State<'_, AppState>, millis: u64, button: &str) -> R
 
 #[tauri::command]
 async fn stop(state: State<'_, AppState>) -> Result<(), ()> {
-  *state.click.lock().await = false;
+  let on = &state.on;
+  *on.lock().await = false;
 
   Ok(())
 }
 
 fn main() {
   tauri::Builder::default()
+    .setup(|app| {
+      let app_handle = app.app_handle();
+      tauri::async_runtime::spawn(async {
+        rdev::listen(move |event| {
+          if let EventType::KeyPress(key) = event.event_type {
+            app_handle.emit_all("keydown", key).unwrap();
+          }
+        }).unwrap();
+      });
+
+      Ok(())
+    })
     .manage(AppState::new())
     .invoke_handler(tauri::generate_handler![start_click, stop])
     .run(tauri::generate_context!())

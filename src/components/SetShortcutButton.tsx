@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Kbd,
   Modal,
   ModalBody,
@@ -10,79 +11,141 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { listen } from "@tauri-apps/api/event";
+import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
+import { useState } from "react";
+
+import keymap from "../keymap.json";
+
+type Key = keyof typeof keymap;
+
+const modifiers = ["Ctrl", "Meta", "Alt", "Shift"];
 
 export const SetShortcutButton = (props: {
   isDisabled: boolean;
-  onChange: (shortcut: string) => void;
+  onSelect: (shortcut: string) => void;
+  onShortcut: () => void;
 }) => {
   const [shortcut, setShortcut] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [unlisten, setUnlisten] = useState<() => void>();
+
   const { isOpen, onOpen, onClose } = useDisclosure({
-    onOpen() {
-      document.addEventListener("keydown", onKeyDown);
-    },
     onClose() {
-      console.log("removing");
-      document.removeEventListener("keydown", onKeyDown);
+      unlisten?.();
       setShortcut([]);
     },
   });
 
-  const onKeyDown = useCallback((e: KeyboardEvent) => {
-    console.log(e);
-  }, []);
+  const open = async () => {
+    const unlisten = await listen("keydown", (e) => {
+      const key = keymap[e.payload as Key];
+      if (key) {
+        setShortcut((shortcut) => {
+          const canEdit =
+            shortcut.length === 0 ||
+            modifiers.includes(shortcut[shortcut.length - 1]);
+          const isValid = !modifiers.includes(key) || !shortcut.includes(key);
+          if (canEdit && isValid) {
+            return [...shortcut, key];
+          }
+          return shortcut;
+        });
+      }
+    });
+    setUnlisten(() => unlisten);
+    onOpen();
+  };
 
-  const save = () => {
-    props.onChange(shortcut.join("+"));
-    onClose();
+  const save = async () => {
+    if (!loading) {
+      setLoading(true);
+      try {
+        await unregisterAll();
+        console.log(shortcut.join("+"));
+        await register(shortcut.join("+"), props.onShortcut);
+        props.onSelect(shortcut.join("+"));
+        onClose();
+      } catch (e) {
+        console.error(e);
+      }
+      setLoading(false);
+    }
   };
 
   return (
-    <>
-      <Button
-        gridColumn={"1 / span 2"}
-        isDisabled={props.isDisabled}
-        onClick={onOpen}
-      >
+    <Box gridColumn={"1 / span 2"}>
+      <Button width={"100%"} isDisabled={props.isDisabled} onClick={open}>
         Set shortcut
       </Button>
 
-      <Modal size={"xs"} isOpen={isOpen} onClose={onClose}>
+      <Modal
+        size={"xs"}
+        autoFocus={false}
+        returnFocusOnClose={false}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Type new shortcut</ModalHeader>
 
           <ModalBody>
             <Box
-              height={10}
+              minHeight={10}
               px={2}
               py={1.5}
               border={"1px solid"}
               borderRadius={"md"}
               borderColor={"gray.300"}
             >
-              {shortcut.map((key, i) => (
-                <>
-                  {i > 0 && " + "}
+              {shortcut.map((key) => (
+                <span key={key}>
                   <Kbd>{key}</Kbd>
-                </>
+                  {modifiers.includes(key) && " + "}
+                </span>
               ))}
             </Box>
           </ModalBody>
 
           <ModalFooter>
-            <Button size={"sm"} mr={2} onClick={() => setShortcut([])}>
+            <Button
+              size={"sm"}
+              mr={2}
+              isDisabled={shortcut.length === 0 || loading}
+              onClick={() => setShortcut([])}
+            >
               Reset
             </Button>
-            <Button size={"sm"} mr={2} onClick={save}>
-              Save
+
+            <Button
+              size={"sm"}
+              mr={2}
+              isDisabled={
+                shortcut.length === 0 ||
+                modifiers.includes(shortcut[shortcut.length - 1])
+              }
+              onClick={save}
+            >
+              <Box as="span" opacity={loading ? 0 : 1}>
+                Save
+              </Box>
+              {loading && (
+                <CircularProgress
+                  isIndeterminate
+                  size={4}
+                  color={"gray"}
+                  position="absolute"
+                />
+              )}
             </Button>
+
             <Button size={"sm"} colorScheme={"red"} onClick={onClose}>
               Cancel
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };
