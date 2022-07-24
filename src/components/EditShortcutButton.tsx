@@ -1,8 +1,9 @@
+import { EditIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
   CircularProgress,
-  Kbd,
+  IconButton,
   Modal,
   ModalBody,
   ModalContent,
@@ -16,12 +17,13 @@ import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
 import { useState } from "react";
 
 import keymap from "../keymap.json";
+import { ShortcutText } from "./ShortcutText";
 
 type Key = keyof typeof keymap;
 
 const modifiers = ["Ctrl", "Meta", "Alt", "Shift"];
 
-export const SetShortcutButton = (props: {
+export const EditShortcutButton = (props: {
   isDisabled: boolean;
   onSelect: (shortcut: string) => void;
   onShortcut: () => void;
@@ -73,15 +75,14 @@ export const SetShortcutButton = (props: {
   };
 
   return (
-    <Box gridColumn={"1 / span 2"}>
-      <Button
+    <>
+      <IconButton
+        aria-label={"Edit shortcut"}
         size={"sm"}
-        width={"100%"}
+        icon={<EditIcon />}
         isDisabled={props.isDisabled}
         onClick={open}
-      >
-        Set shortcut
-      </Button>
+      />
 
       <Modal
         size={"xs"}
@@ -91,7 +92,7 @@ export const SetShortcutButton = (props: {
         onClose={onClose}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent m={"auto"}>
           <ModalHeader>Type new shortcut</ModalHeader>
 
           <ModalBody>
@@ -103,12 +104,7 @@ export const SetShortcutButton = (props: {
               borderRadius={"md"}
               borderColor={"gray.300"}
             >
-              {shortcut.map((key) => (
-                <span key={key}>
-                  <Kbd>{key}</Kbd>
-                  {modifiers.includes(key) && " + "}
-                </span>
-              ))}
+              <ShortcutText shortcut={shortcut} />
             </Box>
           </ModalBody>
 
@@ -150,6 +146,6 @@ export const SetShortcutButton = (props: {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 };

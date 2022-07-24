@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Flex,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -11,9 +12,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api";
-import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
-import { SetShortcutButton } from "./components/SetShortcutButton";
+import { EditShortcutButton } from "./components/EditShortcutButton";
+import { ShortcutText } from "./components/ShortcutText";
 
 export default function App() {
   const [on, setOn] = useState(false);
@@ -89,18 +90,24 @@ export default function App() {
         </NumberInput>
       </Box>
 
-      <SetShortcutButton
-        isDisabled={on}
-        onSelect={setShortcut}
-        onShortcut={() => setOn((on) => !on)}
-      />
+      <Flex gridColumn={"1 / span 2"} align="center">
+        <EditShortcutButton
+          isDisabled={on}
+          onSelect={setShortcut}
+          onShortcut={() => setOn((on) => !on)}
+        />
+        <Text fontSize={"sm"} ml={4} mr={2}>
+          Shortcut:
+        </Text>
+        <ShortcutText shortcut={shortcut.split("+")} />
+      </Flex>
 
       <Button colorScheme="blue" isDisabled={on} onClick={() => setOn(true)}>
-        Start ({shortcut})
+        Start
       </Button>
 
       <Button colorScheme="blue" isDisabled={!on} onClick={() => setOn(false)}>
-        Stop ({shortcut})
+        Stop
       </Button>
     </SimpleGrid>
   );
