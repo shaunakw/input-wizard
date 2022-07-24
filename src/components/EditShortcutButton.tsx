@@ -13,7 +13,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { listen } from "@tauri-apps/api/event";
-import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
 import { useState } from "react";
 
 import keymap from "../keymap.json";

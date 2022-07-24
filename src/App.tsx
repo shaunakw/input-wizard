@@ -12,20 +12,22 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api";
+import { listen } from "@tauri-apps/api/event";
 import { unregisterAll, register } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
+
 import { EditShortcutButton } from "./components/EditShortcutButton";
 import { ShortcutText } from "./components/ShortcutText";
 
 export default function App() {
   const [on, setOn] = useState(false);
-
   const [type, setType] = useState("click");
 
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
 
   const [shortcut, setShortcut] = useState("`");
+  const [test, setTest] = useState("");
 
   const onShortcutSelect = async (shortcut: string) => {
     await unregisterAll();
@@ -35,6 +37,10 @@ export default function App() {
 
   useEffect(() => {
     onShortcutSelect(shortcut);
+
+    listen("keydown", (e) => {
+      setTest(e.payload as string);
+    });
   }, []);
 
   useEffect(() => {
@@ -109,6 +115,7 @@ export default function App() {
         </Text>
 
         <ShortcutText shortcut={shortcut.split("+")} />
+        <Text>{test}</Text>
       </Flex>
 
       <Button colorScheme="blue" isDisabled={on} onClick={() => setOn(true)}>
