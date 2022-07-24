@@ -62,7 +62,6 @@ export const SetShortcutButton = (props: {
       setLoading(true);
       try {
         await unregisterAll();
-        console.log(shortcut.join("+"));
         await register(shortcut.join("+"), props.onShortcut);
         props.onSelect(shortcut.join("+"));
         onClose();
@@ -75,7 +74,12 @@ export const SetShortcutButton = (props: {
 
   return (
     <Box gridColumn={"1 / span 2"}>
-      <Button width={"100%"} isDisabled={props.isDisabled} onClick={open}>
+      <Button
+        size={"sm"}
+        width={"100%"}
+        isDisabled={props.isDisabled}
+        onClick={open}
+      >
         Set shortcut
       </Button>
 

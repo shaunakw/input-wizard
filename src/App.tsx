@@ -38,10 +38,11 @@ export default function App() {
   return (
     <SimpleGrid columns={2} p={4} gap={4}>
       <Box gridColumn={"1 / span 2"}>
-        <Text fontSize={"sm"} mb={2} ml={1}>
+        <Text fontSize={"xs"} mb={2} ml={1}>
           Action
         </Text>
         <Select
+          size={"sm"}
           defaultValue={type}
           isDisabled={on}
           onChange={(e) => setType(e.target.value)}
@@ -53,10 +54,11 @@ export default function App() {
       </Box>
 
       <Box>
-        <Text fontSize={"sm"} mb={2} ml={1}>
+        <Text fontSize={"xs"} mb={1} ml={1}>
           Mouse button
         </Text>
         <Select
+          size={"sm"}
           defaultValue={button}
           isDisabled={on}
           onChange={(e) => setButton(e.target.value)}
@@ -68,10 +70,11 @@ export default function App() {
       </Box>
 
       <Box>
-        <Text fontSize={"sm"} mb={2} ml={1}>
+        <Text fontSize={"xs"} mb={1} ml={1}>
           Interval (milliseconds)
         </Text>
         <NumberInput
+          size={"sm"}
           defaultValue={millis}
           min={1}
           isInvalid={isNaN(millis)}
@@ -92,21 +95,11 @@ export default function App() {
         onShortcut={() => setOn((on) => !on)}
       />
 
-      <Button
-        size={"lg"}
-        colorScheme="blue"
-        isDisabled={on}
-        onClick={() => setOn(true)}
-      >
+      <Button colorScheme="blue" isDisabled={on} onClick={() => setOn(true)}>
         Start ({shortcut})
       </Button>
 
-      <Button
-        size={"lg"}
-        colorScheme="blue"
-        isDisabled={!on}
-        onClick={() => setOn(false)}
-      >
+      <Button colorScheme="blue" isDisabled={!on} onClick={() => setOn(false)}>
         Stop ({shortcut})
       </Button>
     </SimpleGrid>
