@@ -25,8 +25,7 @@ const modifiers = ["Ctrl", "Meta", "Alt", "Shift"];
 
 export const EditShortcutButton = (props: {
   isDisabled: boolean;
-  onSelect: (shortcut: string) => void;
-  onShortcut: () => void;
+  onSelect: (shortcut: string) => void | Promise<void>;
 }) => {
   const [shortcut, setShortcut] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -63,9 +62,7 @@ export const EditShortcutButton = (props: {
     if (!loading) {
       setLoading(true);
       try {
-        await unregisterAll();
-        await register(shortcut.join("+"), props.onShortcut);
-        props.onSelect(shortcut.join("+"));
+        await props.onSelect(shortcut.join("+"));
         onClose();
       } catch (e) {
         console.error(e);

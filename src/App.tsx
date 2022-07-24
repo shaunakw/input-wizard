@@ -12,6 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { invoke } from "@tauri-apps/api";
+import { unregisterAll, register } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
 import { EditShortcutButton } from "./components/EditShortcutButton";
 import { ShortcutText } from "./components/ShortcutText";
@@ -25,6 +26,16 @@ export default function App() {
   const [button, setButton] = useState("Left");
 
   const [shortcut, setShortcut] = useState("`");
+
+  const onShortcutSelect = async (shortcut: string) => {
+    await unregisterAll();
+    await register(shortcut, () => setOn((on) => !on));
+    setShortcut(shortcut);
+  };
+
+  useEffect(() => {
+    onShortcutSelect(shortcut);
+  }, []);
 
   useEffect(() => {
     if (on) {
@@ -91,14 +102,12 @@ export default function App() {
       </Box>
 
       <Flex gridColumn={"1 / span 2"} align="center">
-        <EditShortcutButton
-          isDisabled={on}
-          onSelect={setShortcut}
-          onShortcut={() => setOn((on) => !on)}
-        />
+        <EditShortcutButton isDisabled={on} onSelect={onShortcutSelect} />
+
         <Text fontSize={"sm"} ml={4} mr={2}>
           Shortcut:
         </Text>
+
         <ShortcutText shortcut={shortcut.split("+")} />
       </Flex>
 
