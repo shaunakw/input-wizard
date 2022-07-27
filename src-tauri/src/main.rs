@@ -5,6 +5,7 @@
 
 use std::time::Duration;
 
+use inputbot::KeybdKey;
 use rdev::{Button, EventType};
 use tauri::{State, Manager};
 use tauri::async_runtime::Mutex;
@@ -56,11 +57,12 @@ fn main() {
   tauri::Builder::default()
     .setup(|app| {
       let app_handle = app.app_handle();
-      tauri::async_runtime::spawn(async move {
-        loop {
-          std::thread::sleep(Duration::from_millis(100));
-          app_handle.emit_all("keydown", rdev::Key::Alt).unwrap();
-        }
+      
+      tauri::async_runtime::spawn(async {
+        KeybdKey::bind_all(move |key| {
+          app_handle.emit_all("keydown", format!("{:?}", key)).unwrap();
+        });
+        inputbot::handle_input_events();
       });
       // tauri::async_runtime::spawn(async {
       //   rdev::listen(move |event| {
@@ -69,6 +71,7 @@ fn main() {
       //     }
       //   }).unwrap();
       // });
+      
 
       Ok(())
     })
