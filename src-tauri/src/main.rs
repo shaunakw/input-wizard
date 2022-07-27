@@ -56,13 +56,19 @@ fn main() {
   tauri::Builder::default()
     .setup(|app| {
       let app_handle = app.app_handle();
-      tauri::async_runtime::spawn(async {
-        rdev::listen(move |event| {
-          if let EventType::KeyPress(key) = event.event_type {
-            app_handle.emit_all("keydown", key).unwrap();
-          }
-        }).unwrap();
+      tauri::async_runtime::spawn(async move {
+        loop {
+          std::thread::sleep(Duration::from_millis(100));
+          app_handle.emit_all("keydown", rdev::Key::Alt).unwrap();
+        }
       });
+      // tauri::async_runtime::spawn(async {
+      //   rdev::listen(move |event| {
+      //     if let EventType::KeyPress(key) = event.event_type {
+      //       app_handle.emit_all("keydown", key).unwrap();
+      //     }
+      //   }).unwrap();
+      // });
 
       Ok(())
     })
