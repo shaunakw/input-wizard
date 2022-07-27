@@ -5,9 +5,8 @@
 
 use std::time::Duration;
 
-use device_query::{DeviceEvents, DeviceState};
 use rdev::{Button, EventType};
-use tauri::{State, Manager};
+use tauri::State;
 use tauri::async_runtime::Mutex;
 use tokio::time;
 
@@ -55,24 +54,6 @@ async fn stop(state: State<'_, AppState>) -> Result<(), ()> {
 
 fn main() {
   tauri::Builder::default()
-    .setup(|app| {
-      let app_handle = app.app_handle();
-      
-      let device_state = DeviceState::new();
-      let _guard = device_state.on_key_down(move |key| {
-        app_handle.emit_all("keydown", format!("{:?}", key)).unwrap();
-      });
-
-      // tauri::async_runtime::spawn(async {
-      //   rdev::listen(move |event| {
-      //     if let EventType::KeyPress(key) = event.event_type {
-      //       app_handle.emit_all("keydown", key).unwrap();
-      //     }
-      //   }).unwrap();
-      // });
-
-      Ok(())
-    })
     .manage(AppState::new())
     .invoke_handler(tauri::generate_handler![start_click, stop])
     .run(tauri::generate_context!())

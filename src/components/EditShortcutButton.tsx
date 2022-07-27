@@ -12,8 +12,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { listen } from "@tauri-apps/api/event";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import keymap from "../keymap.json";
 import { ShortcutText } from "./ShortcutText";
@@ -28,34 +27,33 @@ export const EditShortcutButton = (props: {
 }) => {
   const [shortcut, setShortcut] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [unlisten, setUnlisten] = useState<() => void>();
 
   const { isOpen, onOpen, onClose } = useDisclosure({
+    onOpen() {
+      window.addEventListener("keydown", onKeyDown);
+    },
     onClose() {
-      unlisten?.();
+      window.removeEventListener("keydown", onKeyDown);
       setShortcut([]);
     },
   });
 
-  const open = async () => {
-    const unlisten = await listen("keydown", (e) => {
-      const key = keymap[e.payload as Key];
-      if (key) {
-        setShortcut((shortcut) => {
-          const canEdit =
-            shortcut.length === 0 ||
-            modifiers.includes(shortcut[shortcut.length - 1]);
-          const isValid = !modifiers.includes(key) || !shortcut.includes(key);
-          if (canEdit && isValid) {
-            return [...shortcut, key];
-          }
-          return shortcut;
-        });
-      }
-    });
-    setUnlisten(() => unlisten);
-    onOpen();
-  };
+  const onKeyDown = useCallback((e: KeyboardEvent) => {
+    console.log(e.code);
+    const key = keymap[e.code as Key];
+    if (key) {
+      setShortcut((shortcut) => {
+        const canEdit =
+          shortcut.length === 0 ||
+          modifiers.includes(shortcut[shortcut.length - 1]);
+        const isValid = !modifiers.includes(key) || !shortcut.includes(key);
+        if (canEdit && isValid) {
+          return [...shortcut, key];
+        }
+        return shortcut;
+      });
+    }
+  }, []);
 
   const save = async () => {
     if (!loading) {
@@ -77,7 +75,7 @@ export const EditShortcutButton = (props: {
         size={"sm"}
         icon={<EditIcon />}
         isDisabled={props.isDisabled}
-        onClick={open}
+        onClick={onOpen}
       />
 
       <Modal
