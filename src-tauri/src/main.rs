@@ -5,7 +5,7 @@
 
 use std::time::Duration;
 
-use inputbot::KeybdKey;
+use device_query::{DeviceEvents, DeviceState};
 use rdev::{Button, EventType};
 use tauri::{State, Manager};
 use tauri::async_runtime::Mutex;
@@ -58,12 +58,11 @@ fn main() {
     .setup(|app| {
       let app_handle = app.app_handle();
       
-      tauri::async_runtime::spawn(async {
-        KeybdKey::bind_all(move |key| {
-          app_handle.emit_all("keydown", format!("{:?}", key)).unwrap();
-        });
-        inputbot::handle_input_events();
+      let device_state = DeviceState::new();
+      let _guard = device_state.on_key_down(move |key| {
+        app_handle.emit_all("keydown", format!("{:?}", key)).unwrap();
       });
+
       // tauri::async_runtime::spawn(async {
       //   rdev::listen(move |event| {
       //     if let EventType::KeyPress(key) = event.event_type {
@@ -71,7 +70,6 @@ fn main() {
       //     }
       //   }).unwrap();
       // });
-      
 
       Ok(())
     })
