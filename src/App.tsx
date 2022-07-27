@@ -48,9 +48,9 @@ export default function App() {
   }, [on]);
 
   return (
-    <SimpleGrid columns={2} p={4} gap={4}>
+    <SimpleGrid columns={2} px={4} py={3} gap={4}>
       <Box gridColumn={"1 / span 2"}>
-        <Text fontSize={"xs"} mb={2} ml={1}>
+        <Text fontSize={"xs"} mb={1} ml={0.5}>
           Action
         </Text>
         <Select
@@ -66,7 +66,7 @@ export default function App() {
       </Box>
 
       <Box>
-        <Text fontSize={"xs"} mb={1} ml={1}>
+        <Text fontSize={"xs"} mb={1} ml={0.5}>
           Mouse button
         </Text>
         <Select
@@ -82,7 +82,7 @@ export default function App() {
       </Box>
 
       <Box>
-        <Text fontSize={"xs"} mb={1} ml={1}>
+        <Text fontSize={"xs"} mb={1} ml={0.5}>
           Interval (milliseconds)
         </Text>
         <NumberInput
@@ -101,15 +101,15 @@ export default function App() {
         </NumberInput>
       </Box>
 
-      <Flex gridColumn={"1 / span 2"} align="center">
-        <EditShortcutButton isDisabled={on} onSelect={onShortcutSelect} />
-
-        <Text fontSize={"sm"} ml={4} mr={2}>
-          Shortcut:
+      <Box gridColumn={"1 / span 2"}>
+        <Text fontSize={"xs"} mb={1} ml={0.5}>
+          Shortcut
         </Text>
-
-        <ShortcutText shortcut={shortcut.split("+")} />
-      </Flex>
+        <Flex align={"center"}>
+          <EditShortcutButton isDisabled={on} onSelect={onShortcutSelect} />
+          <ShortcutText shortcut={shortcut.split("+")} />
+        </Flex>
+      </Box>
 
       <Button colorScheme="blue" isDisabled={on} onClick={() => setOn(true)}>
         Start

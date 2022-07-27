@@ -73,6 +73,7 @@ export const EditShortcutButton = (props: {
       <IconButton
         aria-label={"Edit shortcut"}
         size={"sm"}
+        mr={4}
         icon={<EditIcon />}
         isDisabled={props.isDisabled}
         onClick={onOpen}
