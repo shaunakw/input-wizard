@@ -8,6 +8,7 @@ use std::time::Duration;
 use rdev::{Button, EventType};
 use tauri::State;
 use tauri::async_runtime::Mutex;
+use tauri_plugin_store::PluginBuilder;
 use tokio::time;
 
 struct AppState {
@@ -56,6 +57,7 @@ fn main() {
   tauri::Builder::default()
     .manage(AppState::new())
     .invoke_handler(tauri::generate_handler![start_click, stop])
+    .plugin(PluginBuilder::default().build())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

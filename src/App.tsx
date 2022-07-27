@@ -14,9 +14,12 @@ import {
 import { invoke } from "@tauri-apps/api";
 import { unregisterAll, register } from "@tauri-apps/api/globalShortcut";
 import { useEffect, useState } from "react";
+import { Store } from "tauri-plugin-store-api";
 
 import { EditShortcutButton } from "./components/EditShortcutButton";
 import { ShortcutText } from "./components/ShortcutText";
+
+const store = new Store(".settings.dat");
 
 export default function App() {
   const [on, setOn] = useState(false);
@@ -25,16 +28,21 @@ export default function App() {
   const [millis, setMillis] = useState(100);
   const [button, setButton] = useState("Left");
 
-  const [shortcut, setShortcut] = useState("`");
+  const [shortcut, setShortcut] = useState<string>();
 
   const onShortcutSelect = async (shortcut: string) => {
     await unregisterAll();
     await register(shortcut, () => setOn((on) => !on));
+    await store.set("shortcut", shortcut);
     setShortcut(shortcut);
   };
 
   useEffect(() => {
-    onShortcutSelect(shortcut);
+    store.get("shortcut").then((shortcut) => {
+      if (shortcut) {
+        onShortcutSelect(shortcut as string);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -107,7 +115,7 @@ export default function App() {
         </Text>
         <Flex align={"center"}>
           <EditShortcutButton isDisabled={on} onSelect={onShortcutSelect} />
-          <ShortcutText shortcut={shortcut.split("+")} />
+          {shortcut ? <ShortcutText shortcut={shortcut.split("+")} /> : "None"}
         </Flex>
       </Box>
 
