@@ -39,7 +39,6 @@ export const EditShortcutButton = (props: {
   });
 
   const onKeyDown = useCallback((e: KeyboardEvent) => {
-    console.log(e.code);
     const key = keymap[e.code as Key];
     if (key) {
       setShortcut((shortcut) => {
