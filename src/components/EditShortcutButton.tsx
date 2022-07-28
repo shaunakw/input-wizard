@@ -12,9 +12,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
-import { parseEvent, modifiers } from "../util/keys";
 
-import { ShortcutText } from "./ShortcutText";
+import { parseEvent, modifiers } from "../util/keys";
+import { MultiKbd } from "./MultiKbd";
 
 export const EditShortcutButton = (props: {
   isDisabled: boolean;
@@ -88,7 +88,7 @@ export const EditShortcutButton = (props: {
               borderRadius={"md"}
               borderColor={"gray.300"}
             >
-              <ShortcutText shortcut={shortcut} />
+              <MultiKbd keys={shortcut} />
             </Box>
           </ModalBody>
 

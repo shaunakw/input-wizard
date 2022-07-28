@@ -19,7 +19,7 @@ import { Store } from "tauri-plugin-store-api";
 
 import { EditKeyButton } from "./components/EditKeyButton";
 import { EditShortcutButton } from "./components/EditShortcutButton";
-import { ShortcutText } from "./components/ShortcutText";
+import { MultiKbd } from "./components/MultiKbd";
 import { Key } from "./util/keys";
 
 type ActionType = "click" | "keypress" | "keydown";
@@ -138,7 +138,7 @@ export default function App() {
         </Text>
         <Flex align={"center"}>
           <EditShortcutButton isDisabled={on} onChange={onShortcutChange} />
-          {shortcut ? <ShortcutText shortcut={shortcut.split("+")} /> : "None"}
+          {shortcut ? <MultiKbd keys={shortcut.split("+")} /> : "None"}
         </Flex>
       </Box>
 
