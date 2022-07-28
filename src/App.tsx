@@ -122,6 +122,7 @@ export default function App() {
           defaultValue={millis}
           min={1}
           isInvalid={isNaN(millis)}
+          isDisabled={on}
           onChange={(_, n) => setMillis(isNaN(n) ? 1 : n)}
         >
           <NumberInputField />
