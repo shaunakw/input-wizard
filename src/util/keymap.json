@@ -1,0 +1,497 @@
+[
+  {
+    "rust": ["Alt", "AltGr"],
+    "webview": ["AltLeft", "AltRight"],
+    "shortcut": "Alt"
+  },
+  {
+    "rust": ["Backspace"],
+    "webview": ["Backspace"],
+    "shortcut": "Backspace"
+  },
+  {
+    "rust": ["CapsLock"],
+    "webview": ["CapsLock"],
+    "shortcut": "CapsLock"
+  },
+  {
+    "rust": ["ControlLeft", "ControlRight"],
+    "webview": ["ControlLeft", "ControlRight"],
+    "shortcut": "Ctrl"
+  },
+  {
+    "rust": ["Delete"],
+    "webview": ["Delete"],
+    "shortcut": "Delete"
+  },
+  {
+    "rust": ["DownArrow"],
+    "webview": ["ArrowDown"],
+    "shortcut": "Down"
+  },
+  {
+    "rust": ["End"],
+    "webview": ["End"],
+    "shortcut": "End"
+  },
+  {
+    "rust": ["Escape"],
+    "webview": ["Escape"],
+    "shortcut": "Esc"
+  },
+  {
+    "rust": ["F1"],
+    "webview": ["F1"],
+    "shortcut": "F1"
+  },
+  {
+    "rust": ["F10"],
+    "webview": ["F10"],
+    "shortcut": "F10"
+  },
+  {
+    "rust": ["F11"],
+    "webview": ["F11"],
+    "shortcut": "F11"
+  },
+  {
+    "rust": ["F12"],
+    "webview": ["F12"],
+    "shortcut": "F12"
+  },
+  {
+    "rust": ["F2"],
+    "webview": ["F2"],
+    "shortcut": "F2"
+  },
+  {
+    "rust": ["F3"],
+    "webview": ["F3"],
+    "shortcut": "F3"
+  },
+  {
+    "rust": ["F4"],
+    "webview": ["F4"],
+    "shortcut": "F4"
+  },
+  {
+    "rust": ["F5"],
+    "webview": ["F5"],
+    "shortcut": "F5"
+  },
+  {
+    "rust": ["F6"],
+    "webview": ["F6"],
+    "shortcut": "F6"
+  },
+  {
+    "rust": ["F7"],
+    "webview": ["F7"],
+    "shortcut": "F7"
+  },
+  {
+    "rust": ["F8"],
+    "webview": ["F8"],
+    "shortcut": "F8"
+  },
+  {
+    "rust": ["F9"],
+    "webview": ["F9"],
+    "shortcut": "F9"
+  },
+  {
+    "rust": ["Home"],
+    "webview": ["Home"],
+    "shortcut": "Home"
+  },
+  {
+    "rust": ["LeftArrow"],
+    "webview": ["ArrowLeft"],
+    "shortcut": "Left"
+  },
+  {
+    "rust": ["MetaLeft", "MetaRight"],
+    "webview": ["MetaLeft", "MetaRight"],
+    "shortcut": "Meta"
+  },
+  {
+    "rust": ["PageDown"],
+    "webview": ["PageDown"],
+    "shortcut": "PageDown"
+  },
+  {
+    "rust": ["PageUp"],
+    "webview": ["PageUp"],
+    "shortcut": "PageUp"
+  },
+  {
+    "rust": ["Return"],
+    "webview": ["Enter"],
+    "shortcut": "Enter"
+  },
+  {
+    "rust": ["RightArrow"],
+    "webview": ["ArrowRight"],
+    "shortcut": "Right"
+  },
+  {
+    "rust": ["ShiftLeft", "ShiftRight"],
+    "webview": ["ShiftLeft", "ShiftRight"],
+    "shortcut": "Shift"
+  },
+  {
+    "rust": ["Space"],
+    "webview": ["Space"],
+    "shortcut": "Space"
+  },
+  {
+    "rust": ["Tab"],
+    "webview": ["Tab"],
+    "shortcut": "Tab"
+  },
+  {
+    "rust": ["UpArrow"],
+    "webview": ["ArrowUp"],
+    "shortcut": "Up"
+  },
+  {
+    "rust": ["PrintScreen"],
+    "webview": ["PrintScreen"],
+    "shortcut": "PrintScreen"
+  },
+  {
+    "rust": ["ScrollLock"],
+    "webview": ["ScrollLock"],
+    "shortcut": "ScrollLock"
+  },
+  {
+    "rust": ["Pause"],
+    "webview": ["Pause"],
+    "shortcut": "MediaPlayPause"
+  },
+  {
+    "rust": ["NumLock"],
+    "webview": ["NumLock"],
+    "shortcut": "NumLock"
+  },
+  {
+    "rust": ["BackQuote"],
+    "webview": ["Backquote"],
+    "shortcut": "`"
+  },
+  {
+    "rust": ["Num1"],
+    "webview": ["Digit1"],
+    "shortcut": "1"
+  },
+  {
+    "rust": ["Num2"],
+    "webview": ["Digit2"],
+    "shortcut": "2"
+  },
+  {
+    "rust": ["Num3"],
+    "webview": ["Digit3"],
+    "shortcut": "3"
+  },
+  {
+    "rust": ["Num4"],
+    "webview": ["Digit4"],
+    "shortcut": "4"
+  },
+  {
+    "rust": ["Num5"],
+    "webview": ["Digit5"],
+    "shortcut": "5"
+  },
+  {
+    "rust": ["Num6"],
+    "webview": ["Digit6"],
+    "shortcut": "6"
+  },
+  {
+    "rust": ["Num7"],
+    "webview": ["Digit7"],
+    "shortcut": "7"
+  },
+  {
+    "rust": ["Num8"],
+    "webview": ["Digit8"],
+    "shortcut": "8"
+  },
+  {
+    "rust": ["Num9"],
+    "webview": ["Digit9"],
+    "shortcut": "9"
+  },
+  {
+    "rust": ["Num0"],
+    "webview": ["Digit0"],
+    "shortcut": "0"
+  },
+  {
+    "rust": ["Minus"],
+    "webview": ["Minus"],
+    "shortcut": "-"
+  },
+  {
+    "rust": ["Equal"],
+    "webview": ["Equal"],
+    "shortcut": "="
+  },
+  {
+    "rust": ["KeyQ"],
+    "webview": ["KeyQ"],
+    "shortcut": "Q"
+  },
+  {
+    "rust": ["KeyW"],
+    "webview": ["KeyW"],
+    "shortcut": "W"
+  },
+  {
+    "rust": ["KeyE"],
+    "webview": ["KeyE"],
+    "shortcut": "E"
+  },
+  {
+    "rust": ["KeyR"],
+    "webview": ["KeyR"],
+    "shortcut": "R"
+  },
+  {
+    "rust": ["KeyT"],
+    "webview": ["KeyT"],
+    "shortcut": "T"
+  },
+  {
+    "rust": ["KeyY"],
+    "webview": ["KeyY"],
+    "shortcut": "Y"
+  },
+  {
+    "rust": ["KeyU"],
+    "webview": ["KeyU"],
+    "shortcut": "U"
+  },
+  {
+    "rust": ["KeyI"],
+    "webview": ["KeyI"],
+    "shortcut": "I"
+  },
+  {
+    "rust": ["KeyO"],
+    "webview": ["KeyO"],
+    "shortcut": "O"
+  },
+  {
+    "rust": ["KeyP"],
+    "webview": ["KeyP"],
+    "shortcut": "P"
+  },
+  {
+    "rust": ["LeftBracket"],
+    "webview": ["BracketLeft"],
+    "shortcut": "["
+  },
+  {
+    "rust": ["RightBracket"],
+    "webview": ["BracketRight"],
+    "shortcut": "]"
+  },
+  {
+    "rust": ["KeyA"],
+    "webview": ["KeyA"],
+    "shortcut": "A"
+  },
+  {
+    "rust": ["KeyS"],
+    "webview": ["KeyS"],
+    "shortcut": "S"
+  },
+  {
+    "rust": ["KeyD"],
+    "webview": ["KeyD"],
+    "shortcut": "D"
+  },
+  {
+    "rust": ["KeyF"],
+    "webview": ["KeyF"],
+    "shortcut": "F"
+  },
+  {
+    "rust": ["KeyG"],
+    "webview": ["KeyG"],
+    "shortcut": "G"
+  },
+  {
+    "rust": ["KeyH"],
+    "webview": ["KeyH"],
+    "shortcut": "H"
+  },
+  {
+    "rust": ["KeyJ"],
+    "webview": ["KeyJ"],
+    "shortcut": "J"
+  },
+  {
+    "rust": ["KeyK"],
+    "webview": ["KeyK"],
+    "shortcut": "K"
+  },
+  {
+    "rust": ["KeyL"],
+    "webview": ["KeyL"],
+    "shortcut": "L"
+  },
+  {
+    "rust": ["SemiColon"],
+    "webview": ["Semicolon"],
+    "shortcut": ";"
+  },
+  {
+    "rust": ["Quote"],
+    "webview": ["Quote"],
+    "shortcut": "'"
+  },
+  {
+    "rust": ["BackSlash"],
+    "webview": ["Backslash"],
+    "shortcut": "\\"
+  },
+  {
+    "rust": ["KeyZ"],
+    "webview": ["KeyZ"],
+    "shortcut": "Z"
+  },
+  {
+    "rust": ["KeyX"],
+    "webview": ["KeyX"],
+    "shortcut": "X"
+  },
+  {
+    "rust": ["KeyC"],
+    "webview": ["KeyC"],
+    "shortcut": "C"
+  },
+  {
+    "rust": ["KeyV"],
+    "webview": ["KeyV"],
+    "shortcut": "V"
+  },
+  {
+    "rust": ["KeyB"],
+    "webview": ["KeyB"],
+    "shortcut": "B"
+  },
+  {
+    "rust": ["KeyN"],
+    "webview": ["KeyN"],
+    "shortcut": "N"
+  },
+  {
+    "rust": ["KeyM"],
+    "webview": ["KeyM"],
+    "shortcut": "M"
+  },
+  {
+    "rust": ["Comma"],
+    "webview": ["Comma"],
+    "shortcut": ","
+  },
+  {
+    "rust": ["Dot"],
+    "webview": ["Period"],
+    "shortcut": "."
+  },
+  {
+    "rust": ["Slash"],
+    "webview": ["Slash"],
+    "shortcut": "/"
+  },
+  {
+    "rust": ["KpReturn"],
+    "webview": ["NumpadReturn"],
+    "shortcut": "NumEnter"
+  },
+  {
+    "rust": ["KpMinus"],
+    "webview": ["NumpadSubtract"],
+    "shortcut": "NumSubtract"
+  },
+  {
+    "rust": ["KpPlus"],
+    "webview": ["NumpadAdd"],
+    "shortcut": "NumAdd"
+  },
+  {
+    "rust": ["KpMultiply"],
+    "webview": ["NumpadMultiply"],
+    "shortcut": "*"
+  },
+  {
+    "rust": ["KpDivide"],
+    "webview": ["NumpadDivide"],
+    "shortcut": "NumDivide"
+  },
+  {
+    "rust": ["Kp0"],
+    "webview": ["Numpad0"],
+    "shortcut": "Num0"
+  },
+  {
+    "rust": ["Kp1"],
+    "webview": ["Numpad1"],
+    "shortcut": "Num1"
+  },
+  {
+    "rust": ["Kp2"],
+    "webview": ["Numpad2"],
+    "shortcut": "Num2"
+  },
+  {
+    "rust": ["Kp3"],
+    "webview": ["Numpad3"],
+    "shortcut": "Num3"
+  },
+  {
+    "rust": ["Kp4"],
+    "webview": ["Numpad4"],
+    "shortcut": "Num4"
+  },
+  {
+    "rust": ["Kp5"],
+    "webview": ["Numpad5"],
+    "shortcut": "Num5"
+  },
+  {
+    "rust": ["Kp6"],
+    "webview": ["Numpad6"],
+    "shortcut": "Num6"
+  },
+  {
+    "rust": ["Kp7"],
+    "webview": ["Numpad7"],
+    "shortcut": "Num7"
+  },
+  {
+    "rust": ["Kp8"],
+    "webview": ["Numpad8"],
+    "shortcut": "Num8"
+  },
+  {
+    "rust": ["Kp9"],
+    "webview": ["Numpad9"],
+    "shortcut": "Num9"
+  },
+  {
+    "rust": ["KpDelete"],
+    "webview": ["NumpadDelete"],
+    "shortcut": "Backspace"
+  },
+  {
+    "rust": ["Function"],
+    "webview": ["Function"],
+    "shortcut": "Fn"
+  }
+]

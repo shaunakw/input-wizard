@@ -1,6 +1,5 @@
 import { Kbd, Text } from "@chakra-ui/react";
-
-const modifiers = ["Ctrl", "Meta", "Alt", "Shift"];
+import { modifiers } from "../util/keys";
 
 export const ShortcutText = (props: { shortcut: string[] }) => {
   return (

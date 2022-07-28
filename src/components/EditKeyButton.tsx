@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   IconButton,
+  Kbd,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,15 +13,13 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
-import { parseEvent, modifiers } from "../util/keys";
+import { Key, parseEvent } from "../util/keys";
 
-import { ShortcutText } from "./ShortcutText";
-
-export const EditShortcutButton = (props: {
+export const EditKeyButton = (props: {
   isDisabled: boolean;
-  onChange: (shortcut: string) => void | Promise<void>;
+  onChange: (key: Key) => void;
 }) => {
-  const [shortcut, setShortcut] = useState<string[]>([]);
+  const [key, setKey] = useState<Key>();
 
   const { isOpen, onOpen, onClose } = useDisclosure({
     onOpen() {
@@ -28,39 +27,26 @@ export const EditShortcutButton = (props: {
     },
     onClose() {
       window.removeEventListener("keydown", onKeyDown);
-      setShortcut([]);
+      setKey(undefined);
     },
   });
 
   const onKeyDown = useCallback((e: KeyboardEvent) => {
-    const key = parseEvent(e)?.shortcut;
+    const key = parseEvent(e);
     if (key) {
-      setShortcut((shortcut) => {
-        const canEdit =
-          shortcut.length === 0 ||
-          modifiers.includes(shortcut[shortcut.length - 1]);
-        const isValid = !modifiers.includes(key) || !shortcut.includes(key);
-        if (canEdit && isValid) {
-          return [...shortcut, key];
-        }
-        return shortcut;
-      });
+      setKey(key);
     }
   }, []);
 
-  const save = async () => {
-    try {
-      await props.onChange(shortcut.join("+"));
-      onClose();
-    } catch (e) {
-      console.error(e);
-    }
+  const save = () => {
+    props.onChange(key!);
+    onClose();
   };
 
   return (
     <>
       <IconButton
-        aria-label={"Edit shortcut"}
+        aria-label={"Edit key"}
         size={"sm"}
         mr={4}
         icon={<EditIcon />}
@@ -77,7 +63,7 @@ export const EditShortcutButton = (props: {
       >
         <ModalOverlay />
         <ModalContent m={"auto"}>
-          <ModalHeader>Type new shortcut</ModalHeader>
+          <ModalHeader>Type new key</ModalHeader>
 
           <ModalBody>
             <Box
@@ -88,7 +74,7 @@ export const EditShortcutButton = (props: {
               borderRadius={"md"}
               borderColor={"gray.300"}
             >
-              <ShortcutText shortcut={shortcut} />
+              {key && <Kbd>{key.shortcut}</Kbd>}
             </Box>
           </ModalBody>
 
@@ -96,21 +82,13 @@ export const EditShortcutButton = (props: {
             <Button
               size={"sm"}
               mr={2}
-              isDisabled={shortcut.length === 0}
-              onClick={() => setShortcut([])}
+              isDisabled={!key}
+              onClick={() => setKey(undefined)}
             >
               Reset
             </Button>
 
-            <Button
-              size={"sm"}
-              mr={2}
-              isDisabled={
-                shortcut.length === 0 ||
-                modifiers.includes(shortcut[shortcut.length - 1])
-              }
-              onClick={save}
-            >
+            <Button size={"sm"} mr={2} isDisabled={!key} onClick={save}>
               Save
             </Button>
 
