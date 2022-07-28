@@ -68,7 +68,7 @@ export default function App() {
   }, [on]);
 
   return (
-    <SimpleGrid columns={2} px={4} py={3} gap={4}>
+    <SimpleGrid columns={2} px={4} py={3} columnGap={4} rowGap={3}>
       <Box gridColumn={"1 / span 2"}>
         <Text fontSize={"xs"} mb={1} ml={0.5}>
           Action
