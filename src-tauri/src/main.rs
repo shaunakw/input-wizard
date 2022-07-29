@@ -6,7 +6,7 @@
 use std::time::Duration;
 
 use rdev::{Button, EventType, Key};
-use tauri::State;
+use tauri::{State};
 use tauri::async_runtime::Mutex;
 use tauri_plugin_store::PluginBuilder;
 use tokio::time;
@@ -63,6 +63,23 @@ async fn start_keypress(state: State<'_, AppState>, millis: u64, key: Key) -> Re
 }
 
 #[tauri::command]
+async fn start_keydown(state: State<'_, AppState>, millis: u64, key: Key) -> Result<(), ()> {
+  let on = &state.on;
+  if !*on.lock().await {
+    *on.lock().await = true;
+
+    rdev::simulate(&EventType::KeyPress(key)).unwrap();
+    let mut interval = time::interval(Duration::from_millis(millis));
+    while *on.lock().await {
+      interval.tick().await;
+    }
+    rdev::simulate(&EventType::KeyRelease(key)).unwrap();
+  }
+
+  Ok(())
+}
+
+#[tauri::command]
 async fn stop(state: State<'_, AppState>) -> Result<(), ()> {
   let on = &state.on;
   *on.lock().await = false;
@@ -73,7 +90,7 @@ async fn stop(state: State<'_, AppState>) -> Result<(), ()> {
 fn main() {
   tauri::Builder::default()
     .manage(AppState::new())
-    .invoke_handler(tauri::generate_handler![start_click, start_keypress, stop])
+    .invoke_handler(tauri::generate_handler![start_click, start_keypress, start_keydown, stop])
     .plugin(PluginBuilder::default().build())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

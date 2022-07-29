@@ -28,7 +28,7 @@ const store = new Store(".settings.dat");
 
 export default function App() {
   const [on, setOn] = useState(false);
-  const [type, setType] = useState<ActionType>("click");
+  const [type, setType] = useState<ActionType>("keydown");
 
   const [key, setKey] = useState<Key>();
   const [millis, setMillis] = useState(100);
@@ -53,13 +53,13 @@ export default function App() {
 
   useEffect(() => {
     if (on) {
-      if (type === "click") {
-        if (!isNaN(millis)) {
+      if (!isNaN(millis)) {
+        if (type === "click") {
           invoke("start_click", { millis, button });
-        }
-      } else if (type === "keypress") {
-        if (!isNaN(millis) && key) {
+        } else if (type === "keypress" && key) {
           invoke("start_keypress", { millis, key: key.rust[0] });
+        } else if (type === "keydown" && key) {
+          invoke("start_keydown", { millis, key: key.rust[0] });
         }
       }
     } else {
@@ -122,7 +122,7 @@ export default function App() {
           defaultValue={millis}
           min={1}
           isInvalid={isNaN(millis)}
-          isDisabled={on}
+          // isDisabled={on}
           onChange={(_, n) => setMillis(isNaN(n) ? 1 : n)}
         >
           <NumberInputField />
