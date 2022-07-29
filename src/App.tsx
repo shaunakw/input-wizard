@@ -28,7 +28,7 @@ const store = new Store(".settings.dat");
 
 export default function App() {
   const [on, setOn] = useState(false);
-  const [type, setType] = useState<ActionType>("keydown");
+  const [type, setType] = useState<ActionType>("click");
 
   const [key, setKey] = useState<Key>();
   const [millis, setMillis] = useState(100);
@@ -61,6 +61,8 @@ export default function App() {
         } else if (type === "keydown" && key) {
           invoke("start_keydown", { millis, key: key.rust[0] });
         }
+      } else {
+        setOn(false);
       }
     } else {
       invoke("stop");
@@ -122,8 +124,8 @@ export default function App() {
           defaultValue={millis}
           min={1}
           isInvalid={isNaN(millis)}
-          // isDisabled={on}
-          onChange={(_, n) => setMillis(isNaN(n) ? 1 : n)}
+          isDisabled={on}
+          onChange={(_, n) => setMillis(n)}
         >
           <NumberInputField />
           <NumberInputStepper>
