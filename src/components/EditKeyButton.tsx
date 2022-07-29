@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
+
 import { Key, parseEvent } from "../util/keys";
 
 export const EditKeyButton = (props: {
@@ -34,7 +35,9 @@ export const EditKeyButton = (props: {
   const onKeyDown = useCallback((e: KeyboardEvent) => {
     const key = parseEvent(e);
     if (key) {
-      setKey(key);
+      setKey((oldKey) => {
+        return oldKey ?? key;
+      });
     }
   }, []);
 
