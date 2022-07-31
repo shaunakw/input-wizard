@@ -68,10 +68,10 @@ async fn start_keydown(state: State<'_, AppState>, millis: u64, key: Key) -> Res
   if !*on.lock().await {
     *on.lock().await = true;
 
-    rdev::simulate(&EventType::KeyPress(key)).unwrap();
     let mut interval = time::interval(Duration::from_millis(millis));
     while *on.lock().await {
       interval.tick().await;
+      rdev::simulate(&EventType::KeyPress(key)).unwrap();
     }
     rdev::simulate(&EventType::KeyRelease(key)).unwrap();
   }
